@@ -60,34 +60,32 @@ class DinoList extends Component {
 
 	render(props, state) {
 		return (
-			<div className="App-content">
-				<div className="DinoList">
-			        <div className="col-sm-3">
-			        	<ul className="DinoList-list">
-			            	{
-			            		state.dinos ? (
-				              		state.dinos.map((dino) => (
-				                		<li key={dino.id}>
-					                  		<a className={state.active === dino.id ? 'active' : ''}
-					                    	   onClick={linkEvent({id: dino.id, instance: this}, getDinoById)}>
-					                    		{dino.name}
-					                  		</a>
-				                		</li>
-				              		))
-				              	) : ("")
-			            	}
-			          	</ul>
-			        </div>
-			        <div className="col-sm-9">
-			        	{
-			            	!state.loading && !state.error ? (
-			            		<DinoDetail dino={state.detail} />
-			            	) : (
-			            		<Loading error={state.error} />
-			            	)
-			          	}
-			        </div>
-			    </div>
+			<div className="DinoList">
+					<div className="col-sm-3">
+						<ul className="DinoList-list">
+								{
+									state.dinos ? (
+											state.dinos.map((dino) => (
+												<li key={dino.id}>
+														<a className={state.active === dino.id ? 'active' : ''}
+																onClick={linkEvent({id: dino.id, instance: this}, getDinoById)}>
+															{dino.name}
+														</a>
+												</li>
+											))
+										) : ("")
+								}
+							</ul>
+					</div>
+					<div className="col-sm-9">
+						{
+								!state.loading && !state.error ? (
+									<DinoDetail dino={state.detail} />
+								) : (
+									<Loading error={state.error} />
+								)
+							}
+					</div>
 			</div>
 		);
 	}
