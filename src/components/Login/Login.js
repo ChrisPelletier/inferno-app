@@ -5,7 +5,7 @@ import AuthService from './../../utils/AuthService'
 class Login extends Component {
 	render() {
 		return(
-		    <a onClick={linkEvent(this, AuthService.login)}>Log In</a>
+			<a onClick={linkEvent(this, AuthService.login)}>Log In</a>
 		);
 	}
 }

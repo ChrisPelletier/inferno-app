@@ -4,7 +4,9 @@ export default function({ children }) {
     return <div>
         <NavBar/>
         <main>
-            {children}
+            <div className="App-content">
+                {children}
+            </div>
         </main>
     </div>
 }
