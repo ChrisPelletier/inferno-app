@@ -3,6 +3,7 @@ import { Link } from 'inferno-router';
 import Component from 'inferno-component';
 import AuthService from './../../utils/AuthService';
 import Login from './../Login/Login';
+import UserNavItem from './../UserNavItem/UserNavItem';
 
 class NavBar extends Component {
   constructor() {
@@ -42,15 +43,18 @@ class NavBar extends Component {
                 </ul>
               ) 
             }
-            <ul class="nav navbar-nav navbar-right">
-              {
-                !state.isLoggedIn ? (
+            {
+              !state.isLoggedIn ? (
+                <ul class="nav navbar-nav navbar-right">
                   <li><Login auth0={this.auth0} /></li>
-                ) : (
+                </ul>
+              ) : (
+                <ul class="nav navbar-nav navbar-right">
+                  <li><UserNavItem profile={ state.profile } /></li>
                   <li><a onClick={linkEvent(this, AuthService.logOut)}>Log out</a></li>
-                )
-              }
-            </ul>
+                </ul>
+              )
+            }
           </div>
         </div>
       </nav>
