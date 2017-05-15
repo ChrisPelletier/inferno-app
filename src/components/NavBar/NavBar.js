@@ -10,7 +10,8 @@ class NavBar extends Component {
 
     this.state = {
       idToken: AuthService.getIdToken(),
-      profile: AuthService.getProfile()
+      profile: AuthService.getProfile(),
+      isLoggedIn: AuthService.isLoggedIn()
     };
   }
 
@@ -28,7 +29,7 @@ class NavBar extends Component {
         <div class="container">
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             {
-              state.idToken ? (
+              state.isLoggedIn ? (
                 <ul class="nav navbar-nav">
                   <li><Link to="/">Home</Link></li>
                   <li><Link to="/about">About</Link></li>
@@ -43,7 +44,7 @@ class NavBar extends Component {
             }
             <ul class="nav navbar-nav navbar-right">
               {
-                !state.idToken ? (
+                !state.isLoggedIn ? (
                   <li><Login auth0={this.auth0} /></li>
                 ) : (
                   <li><a onClick={linkEvent(this, AuthService.logOut)}>Log out</a></li>

@@ -26,7 +26,8 @@ function login(instance) {
 function logOut(instance) {
 	instance.setState({
 		idToken: null,
-		profile: null
+		profile: null,
+		isLoggedIn: null
 	});
 
 	localStorage.removeItem('id_token');
@@ -51,15 +52,15 @@ function parseHash(instance) {
 		if(authResult && authResult.idToken && authResult.accessToken) {
 			// Retrieve the users profile.
 			instance.auth0.client.userInfo(authResult.accessToken, (err, profile) => {
-				window.location = window.location.href.split('#')[0];
-
 				instance.setState({
 					idToken: authResult.idToken,
-					profile: profile
+					profile: profile,
+					isLoggedIn: true
 				});
 				localStorage.setItem('id_token', instance.state.idToken);
 				localStorage.setItem('access_token', authResult.accessToken);
 				localStorage.setItem('profile', JSON.stringify(profile));
+				instance.context.router.push(instance.context.router.location.pathname);
 			}); 
 		}
 	});
