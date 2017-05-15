@@ -9,8 +9,8 @@ class NavBar extends Component {
     super();
 
     this.state = {
-      idToken: localStorage.getItem('id_token'),
-      profile: JSON.parse(localStorage.getItem('profile'))
+      idToken: AuthService.getIdToken(),
+      profile: AuthService.getProfile()
     };
   }
 
@@ -27,9 +27,20 @@ class NavBar extends Component {
       <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-              <li><Link to="/">Home</Link></li>
-            </ul>
+            {
+              state.idToken ? (
+                <ul class="nav navbar-nav">
+                  <li><Link to="/">Home</Link></li>
+                  <li><Link to="/about">About</Link></li>
+                  <li><Link to="/dinosaurs">Dinosaurs</Link></li>
+                </ul>
+              ) : (
+                <ul class="nav navbar-nav">
+                  <li><Link to="/">Home</Link></li>
+                  <li><Link to="/about">About</Link></li>
+                </ul>
+              ) 
+            }
             <ul class="nav navbar-nav navbar-right">
               {
                 !state.idToken ? (
