@@ -52,6 +52,8 @@ function parseHash(instance) {
 		if(authResult && authResult.idToken && authResult.accessToken) {
 			// Retrieve the users profile.
 			instance.auth0.client.userInfo(authResult.accessToken, (err, profile) => {
+				let updatedAtDate = new Date(profile.updated_at);
+				profile.updated_at = updatedAtDate.getTime();
 				instance.setState({
 					idToken: authResult.idToken,
 					profile: profile,
@@ -75,7 +77,9 @@ function getAccessToken() {
 }
 
 function getProfile() {
-	return JSON.parse(localStorage.getItem('profile'));
+	let profile = JSON.parse(localStorage.getItem('profile'));
+	profile.updated_at = new Date(profile.updated_at).toDateString();
+	return profile;
 }
 
 export default AuthService;
