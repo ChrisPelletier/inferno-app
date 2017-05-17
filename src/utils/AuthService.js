@@ -77,7 +77,7 @@ function getAccessToken() {
 
 function getProfile() {
 	let profile = JSON.parse(localStorage.getItem('profile'));
-	if (profile) {
+	if (profile && profile.updated_at) {
 		profile.updated_at = new Date(profile.updated_at).toDateString();
 	}
 	return profile;
