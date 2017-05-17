@@ -10,11 +10,16 @@
     "inferno-router": "^3.1.2"
   },
   "devDependencies": {
-    "inferno-scripts": "3.0.0"
+    "inferno-scripts": "3.0.0",
+    "node-sass": "^4.5.2",
+    "npm-run-all": "^4.0.2"
   },
   "scripts": {
-    "start": "inferno-scripts start",
-    "build": "inferno-scripts build",
+    "build-css": "node-sass src/ -o src/",
+    "watch-css": "yarn run build-css && node-sass src/ -o src/ --watch --recursive",
+    "start-js": "inferno-scripts start",
+    "start": "npm-run-all -p watch-css start-js",
+    "build": "npm run build-css && inferno-scripts build",
     "test": "inferno-scripts test --env=jsdom",
     "eject": "inferno-scripts eject"
   }
