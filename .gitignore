@@ -18,3 +18,5 @@ yarn-error.log*
 
 # css files that are created by scss files
 src/**/*.css
+
+/server

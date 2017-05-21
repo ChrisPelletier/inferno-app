@@ -1,25 +1,39 @@
 // src/utils/ApiService.js
+import AuthService from './AuthService';
+import axios from 'axios';
 
 const API = 'http://localhost:3001/api/';
 
 // GET list of all dinosaurs from API
-function getDinoList() {
-  return fetch(`${API}dinosaurs`)
-    .then(_verifyResponse, _handleError);
+function getDinoList() { 
+  return axios.get(`${API}dinosaurs`, {
+      headers: {
+        'Authorization': 'Bearer ' + AuthService.getAccessToken()
+      },
+      responseType: 'json'
+    })
+    .then(_verifyResponse)
+    .catch(_handleError);
 }
 
 // GET a dinosaur's detail info from API by ID
 function getDino(id) {
-  return fetch(`${API}dinosaur/${id}`)
-    .then(_verifyResponse, _handleError);
+  return axios.get(`${API}dinosaur/${id}`, {
+      headers: {
+        'Authorization': 'Bearer ' + AuthService.getAccessToken()
+      },
+      responseType: 'json'
+    })
+    .then(_verifyResponse)
+    .catch(_handleError);
 }
 
 // Verify that the fetched response is JSON
 function _verifyResponse(res) {
-  let contentType = res.headers.get('content-type');
+  let contentType = res.headers['content-type'];
 
   if (contentType && contentType.indexOf('application/json') !== -1) {
-    return res.json();
+    return res.data;
   } else {
     _handleError({ message: 'Response was not JSON'});
   }
@@ -28,6 +42,12 @@ function _verifyResponse(res) {
 // Handle fetch errors
 function _handleError(error) {
   console.error('An error occurred:', error);
+  if (error.response) {
+    console.log(error.response.status === 401);
+    if(error.response.status === 401) {
+      AuthService.logOut();
+    }
+  }
   throw error;
 }
 
