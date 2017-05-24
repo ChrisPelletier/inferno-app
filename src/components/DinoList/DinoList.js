@@ -42,21 +42,21 @@ class DinoList extends Component {
 		};
 	}
 
-	componentDidMount() {
-	    ApiService.getDinoList()
-	      .then(
-	        (res) => {
-	          this.setState({
-	            dinos: res
-	          });
-	        },
-	        (err) => {
-	          this.setState({
-	            error: err
-	          });
-	        }
-	      );
-	  }
+	componentDidMount(obj){
+		ApiService.getDinoList()
+			.then(
+				(res) => {
+					this.setState({
+						dinos: res
+					});
+				},
+				(err) => {
+					this.setState({
+						error: err.data.error
+					});
+				}
+			);
+	}
 
 	render(props, state) {
 		return (

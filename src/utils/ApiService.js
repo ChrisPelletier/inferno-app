@@ -1,31 +1,17 @@
 // src/utils/ApiService.js
-import AuthService from './AuthService';
-import axios from 'axios';
 
-const API = 'http://localhost:3001/api/';
+import axios from 'axios';
 
 // GET list of all dinosaurs from API
 function getDinoList() { 
-  return axios.get(`${API}dinosaurs`, {
-      headers: {
-        'Authorization': 'Bearer ' + AuthService.getAccessToken()
-      },
-      responseType: 'json'
-    })
-    .then(_verifyResponse)
-    .catch(_handleError);
+  return axios.get(`/dinosaurs`)
+    .then(_verifyResponse, _handleError);
 }
 
 // GET a dinosaur's detail info from API by ID
 function getDino(id) {
-  return axios.get(`${API}dinosaur/${id}`, {
-      headers: {
-        'Authorization': 'Bearer ' + AuthService.getAccessToken()
-      },
-      responseType: 'json'
-    })
-    .then(_verifyResponse)
-    .catch(_handleError);
+  return axios.get(`/dinosaur/${id}`)
+    .then(_verifyResponse, _handleError);
 }
 
 // Verify that the fetched response is JSON
@@ -41,14 +27,8 @@ function _verifyResponse(res) {
 
 // Handle fetch errors
 function _handleError(error) {
-  console.error('An error occurred:', error);
-  if (error.response) {
-    console.log(error.response.status === 401);
-    if(error.response.status === 401) {
-      AuthService.logOut();
-    }
-  }
-  throw error;
+  console.error('An error occurred:', error.response);
+  throw error.response;
 }
 
 // Export ApiService

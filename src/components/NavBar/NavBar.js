@@ -1,6 +1,7 @@
 import { linkEvent } from 'inferno';
 import { Link } from 'inferno-router';
 import Component from 'inferno-component';
+import axios from 'axios';
 import AuthService from './../../utils/AuthService';
 import Login from './../Login/Login';
 import UserNavItem from './../UserNavItem/UserNavItem';
@@ -18,6 +19,20 @@ class NavBar extends Component {
 
   componentWillMount () {
     this.auth0 = AuthService.createWebAuthInstance();
+    this.setState({
+      idToken: AuthService.getIdToken(),
+      profile: AuthService.getProfile(),
+      isLoggedIn: AuthService.isLoggedIn()
+    })
+    axios.interceptors.response.use(
+      (response) => {
+        return response;
+      }, (error) => {
+        if (error.response.status === 401) {
+          AuthService.logOut(this);
+        }
+        return Promise.reject(error);
+      });
   }
 
   componentDidMount() {

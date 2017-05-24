@@ -1,6 +1,7 @@
 // src/utils/AuthService.js
 
 import auth0 from 'auth0-js';
+import axios from 'axios';
 
 const AuthService = { 
 	login, 
@@ -33,6 +34,7 @@ function logOut(instance) {
 	localStorage.removeItem('id_token');
 	localStorage.removeItem('access_token');
 	localStorage.removeItem('profile');
+	axios.defaults.headers.common['Authorization'] = undefined;
 	instance.context.router.push('/');
 }
 
@@ -61,6 +63,8 @@ function parseHash(instance) {
 				localStorage.setItem('id_token', instance.state.idToken);
 				localStorage.setItem('access_token', authResult.accessToken);
 				localStorage.setItem('profile', JSON.stringify(profile));
+				axios.defaults.headers.common['Authorization'] = 
+					'Bearer ' + authResult.accessToken;
 				instance.context.router.push(instance.context.router.location.pathname);
 			}); 
 		}

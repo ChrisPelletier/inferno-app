@@ -14,7 +14,7 @@ class Loading extends Component {
 					!props.error ? (
 						<img className="Loading-img" src={loading} alt="Loading..." />
 					) : (
-						<p className="alert alert-danger"><strong>Error:</strong> Could not retrieve data.</p>
+						<p className="alert alert-danger"><strong>Error:</strong> {props.error}</p>
 					)
 				}
 			</div>
